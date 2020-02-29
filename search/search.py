@@ -86,13 +86,58 @@ def depthFirstSearch(problem):
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # "*** YOUR CODE HERE ***"
+    # print "Start:", problem.getStartState()
+    # print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+    # print "Start's successors:", problem.getSuccessors(problem.getStartState())
+
+    fringe = util.Stack()
+    visited = set()
+    fringe.push((problem.getStartState(), []))
+
+    while 1:
+        temp = fringe.pop()
+        node = temp[0]
+        pathToNode = temp[1]
+        print node
+        if problem.isGoalState(node):
+            break
+        else:
+            if node not in visited:
+                visited.add(node)
+                sucs = problem.getSuccessors(node)
+                for suc in sucs:
+                    sucNode = suc[0]
+                    sucPath = pathToNode + [suc[1]]
+                    fringe.push((sucNode, sucPath))
+
+    return pathToNode
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    fringe = util.Queue()
+    visited = set()
+    fringe.push((problem.getStartState(), []))
+
+    while 1:
+        temp = fringe.pop()
+        node = temp[0]
+        pathToNode = temp[1]
+        print node
+        if problem.isGoalState(node):
+            break
+        else:
+            if node not in visited:
+                visited.add(node)
+                sucs = problem.getSuccessors(node)
+                for suc in sucs:
+                    sucNode = suc[0]
+                    sucPath = pathToNode + [suc[1]]
+                    fringe.push((sucNode, sucPath))
+
+    return pathToNode
+    # util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
