@@ -142,7 +142,30 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    state = (problem.getStartState(),[])
+    positions = util.PriorityQueue()
+    searched = []
+    positions.push(state, 0)
+
+    while (not positions.isEmpty()):
+        state = positions.pop()
+        if (problem.isGoalState(state[0])):
+            return state[1]
+
+        if (not(state[0] in searched)):
+            searched.append(state[0])
+            successors = problem.getSuccessors(state[0])
+            for i in range(len(successors)):
+                nextState = state
+                if(not(successors[i][0] in searched)):
+                    coor = successors[i][0]
+                    actions = nextState[1] + [successors[i][1]]
+                    cost = problem.getCostOfActions(actions)
+                    positions.push((coor,actions),cost)
+
+        
+    return state[1]
+    #util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
     """
@@ -154,7 +177,30 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    state = (problem.getStartState(),[])
+    positions = util.PriorityQueue()
+    searched = []
+    positions.push(state, heuristic(state[0], problem))
+    
+    while (not positions.isEmpty()):
+        state = positions.pop()
+        if (problem.isGoalState(state[0])):
+            return state[1]
+        
+        if (not(state[0] in searched)):
+            searched.append(state[0])
+            successors = problem.getSuccessors(state[0])
+            for i in range(len(successors)):
+                nextState = state
+                if(not(successors[i][0] in searched)):
+                    coor = successors[i][0]
+                    actions = nextState[1] + [successors[i][1]]
+                    depth = problem.getCostOfActions(actions)
+                    positions.push((coor,actions),depth+heuristic(coor, problem))
+
+        
+    return state[1]
+    #util.raiseNotDefined()
 
 
 # Abbreviations
